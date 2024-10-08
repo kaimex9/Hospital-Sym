@@ -29,4 +29,26 @@ class NurseController extends AbstractController
 
         return $this->json($credenciales);
     }
+
+    #[Route('/nurse/login', name: 'app_nurse')]
+    public function index():Response{
+    {
+        $nombre = "Antonio";
+        $pass = "12345678";
+        $correcto = false;
+        
+    if(isset($_POST["nombre"]) && isset($_POST["pass"])){
+        if($_POST["nombre"] == $nombre && $pass == $_POST["pass"]){
+            $correcto = true;
+            echo "Credenciales correctos";
+        }else{
+            echo "Credenciales Incorrectos";
+        }
+    }else{
+        echo "No se han proporcionado datos suficientes";
+    }
+        
+        return new Response($correcto, Response::HTTP_OK);
+    }
+}
 }
