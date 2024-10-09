@@ -34,16 +34,24 @@ class NurseController extends AbstractController
     #[Route('/nurse/login', name: 'app_nurse')]
     public function index():Response{
     {
+        $correcto = false;
+        $users = $this->allNurses();
+        
+        if(isset($_POST["nombre"]) && isset($_POST["pass"])){
         $nombre = "Antonio";
         $pass = "12345678";
-        $correcto = false;
-        
-    if(isset($_POST["nombre"]) && isset($_POST["pass"])){
-        if($_POST["nombre"] == $nombre && $pass == $_POST["pass"]){
-            $correcto = true;
-            echo "Credenciales correctos";
+        for($i = 0; $i < count($users); $i++){
+            $nombre = $users[$i]["user"];
+            $pass = $users[$i]["password"];
+            if($_POST["nombre"] == $nombre && $pass == $_POST["pass"]){
+                $correcto = true;
+                break;
+            }
+        }
+        if($correcto == false){
+            echo "Credenciales incorrectos";
         }else{
-            echo "Credenciales Incorrectos";
+            echo "Credenciales correctos";
         }
     }else{
         echo "No se han proporcionado datos suficientes";
@@ -53,5 +61,3 @@ class NurseController extends AbstractController
     }
 }
 }
-//Alex Alabau
-//Alex Alabau2
