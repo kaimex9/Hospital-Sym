@@ -31,7 +31,7 @@ class NurseController extends AbstractController
     
 
     #[Route('/nurse/login', name: 'app_nurse_login')]
-    public function index(Request $request): JsonResponse
+    public function nurseLogin(Request $request): JsonResponse
     { {
             $nombre = $request->request->get('nombre');
             $pass = $request->request->get( 'pass');
