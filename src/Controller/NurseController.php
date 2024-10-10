@@ -61,12 +61,7 @@ class NurseController extends AbstractController
     #[Route('/name/{name}', name: 'nurse_list_name', methods: ['GET'])]
     public function findByName(string $name): JsonResponse
     {
-
         $nurses = $this->allNurses();
-
-        $return_nurses = [];
-
-
         foreach ($nurses as $nurse) {
             if ($nurse['user'] === $name) {
                 $return_nurses[] = ['user' => $nurse['user'], 'password' => $nurse['password']];
