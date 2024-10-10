@@ -25,24 +25,24 @@ class NurseController extends AbstractController
     #[Route(path: '/index', name: 'app_nurse_getAll')]
     public function getAll(): JsonResponse
     {
-        $credenciales = $this->allNurses();
-        return $this->json($credenciales);
+        $nurse_list = $this->allNurses();
+        return $this->json($nurse_list);
     }
     
 
     #[Route('/nurse/login', name: 'app_nurse_login')]
     public function nurseLogin(Request $request): JsonResponse
     { {
-            $nombre = $request->request->get('nombre');
+            $name = $request->request->get('nombre');
             $pass = $request->request->get( 'pass');
             $correcto = false;
-            $users = $this->allNurses();
+            $nurses = $this->allNurses();
 
-            if (isset($nombre) && isset($pass)) {
-                for ($i = 0; $i < count($users); $i++) {
-                    $nombre = $users[$i]["user"];
-                    $pass = $users[$i]["password"];
-                    if ($_POST["nombre"] == $nombre && $pass == $_POST["pass"]) {
+            if (isset($name) && isset($pass)) {
+                for ($i = 0; $i < count($nurses); $i++) {
+                    $NurseName = $nurses[$i]["user"];
+                    $NursePass = $nurses[$i]["password"];
+                    if ($name == $NurseName && $pass == $NursePass) {
                         $correcto = true;
                         break;
                     }
