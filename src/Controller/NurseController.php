@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class NurseController extends AbstractController
 {
@@ -30,14 +31,14 @@ class NurseController extends AbstractController
     
 
     #[Route('/nurse/login', name: 'app_nurse_login')]
-    public function index(): Response
+    public function index(Request $request): Response
     { {
+            $nombre = $request->request->get('nombre');
+            $pass = $request->request->get( 'pass');
             $correcto = false;
             $users = $this->allNurses();
 
-            if (isset($_POST["nombre"]) && isset($_POST["pass"])) {
-                $nombre = "Antonio";
-                $pass = "12345678";
+            if (isset($nombre) && isset($pass)) {
                 for ($i = 0; $i < count($users); $i++) {
                     $nombre = $users[$i]["user"];
                     $pass = $users[$i]["password"];
