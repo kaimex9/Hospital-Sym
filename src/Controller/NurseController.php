@@ -30,10 +30,24 @@ class NurseController extends AbstractController
 
         return $this->json($credenciales);
     }
-
-    #[Route('/nurse/login', name: 'app_nurse')]
-    public function index():Response{
+    #[Route('/name/{name}', name: 'nurse_list_name', methods: ['GET'])]
+    public function findByName(string $name): JsonResponse
     {
+
+
+        $nurses = $this->allNurses();
+
+        $return_nurses = [];
+
+
+        foreach ($nurses as $nurse) {
+            if ($nurse['user'] === $name) {
+                $return_nurses[] = ['user' => $nurse['user'], 'password' => $nurse['password']];
+                return new JsonResponse($return_nurses, JsonResponse::HTTP_OK); // Devolver 200 si encuentra
+            }
+    
+        #[Route('nurse/login', name: 'app_nurse')]
+        public function index()Response{
         $correcto = false;
         $users = $this->allNurses();
         
@@ -52,12 +66,32 @@ class NurseController extends AbstractController
             echo "Credenciales incorrectos";
         }else{
             echo "Credenciales correctos";
+
         }
-    }else{
-        echo "No se han proporcionado datos suficientes";
+
+
+        return new JsonResponse(['error' => 'Nurse not found'], JsonResponse::HTTP_NOT_FOUND);
     }
-        
-        return new Response($correcto, Response::HTTP_OK);
+
+    #[Route('/nurse/login', name: 'app_nurse')]
+    public function index(): Response
+    { {
+            $nombre = "Antonio";
+            $pass = "12345678";
+            $correcto = false;
+
+            if (isset($_POST["nombre"]) && isset($_POST["pass"])) {
+                if ($_POST["nombre"] == $nombre && $pass == $_POST["pass"]) {
+                    $correcto = true;
+                    echo "Credenciales correctos";
+                } else {
+                    echo "Credenciales Incorrectos";
+                }
+            } else {
+                echo "No se han proporcionado datos suficientes";
+            }
+
+            return new Response($correcto, Response::HTTP_OK);
+        }
     }
-}
 }
