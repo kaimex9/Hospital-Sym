@@ -6,6 +6,7 @@ use PhpParser\Node\Name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class NurseController extends AbstractController
 {
@@ -29,26 +30,45 @@ class NurseController extends AbstractController
 
         return $this->json($credenciales);
     }
+    #[Route('/name/{name}', name: 'nurse_list_name', methods: ['GET'])]
+    public function findByName(string $name): JsonResponse
+    {
+
+        $nurses = $this->allNurses();
+
+        $return_nurses = [];
+
+
+        foreach ($nurses as $nurse) {
+            if ($nurse['user'] === $name) {
+                $return_nurses[] = ['user' => $nurse['user'], 'password' => $nurse['password']];
+                return new JsonResponse($return_nurses, JsonResponse::HTTP_OK); // Devolver 200 si encuentra
+            }
+        }
+
+
+        return new JsonResponse(['error' => 'Nurse not found'], JsonResponse::HTTP_NOT_FOUND);
+    }
 
     #[Route('/nurse/login', name: 'app_nurse')]
-    public function index():Response{
-    {
-        $nombre = "Antonio";
-        $pass = "12345678";
-        $correcto = false;
-        
-    if(isset($_POST["nombre"]) && isset($_POST["pass"])){
-        if($_POST["nombre"] == $nombre && $pass == $_POST["pass"]){
-            $correcto = true;
-            echo "Credenciales correctos";
-        }else{
-            echo "Credenciales Incorrectos";
+    public function index(): Response
+    { {
+            $nombre = "Antonio";
+            $pass = "12345678";
+            $correcto = false;
+
+            if (isset($_POST["nombre"]) && isset($_POST["pass"])) {
+                if ($_POST["nombre"] == $nombre && $pass == $_POST["pass"]) {
+                    $correcto = true;
+                    echo "Credenciales correctos";
+                } else {
+                    echo "Credenciales Incorrectos";
+                }
+            } else {
+                echo "No se han proporcionado datos suficientes";
+            }
+
+            return new Response($correcto, Response::HTTP_OK);
         }
-    }else{
-        echo "No se han proporcionado datos suficientes";
     }
-        
-        return new Response($correcto, Response::HTTP_OK);
-    }
-}
 }
