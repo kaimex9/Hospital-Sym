@@ -34,6 +34,7 @@ class NurseController extends AbstractController
     public function findByName(string $name): JsonResponse
     {
 
+
         $nurses = $this->allNurses();
 
         $return_nurses = [];
@@ -44,6 +45,28 @@ class NurseController extends AbstractController
                 $return_nurses[] = ['user' => $nurse['user'], 'password' => $nurse['password']];
                 return new JsonResponse($return_nurses, JsonResponse::HTTP_OK); // Devolver 200 si encuentra
             }
+    
+        #[Route('nurse/login', name: 'app_nurse')]
+        public function index()Response{
+        $correcto = false;
+        $users = $this->allNurses();
+        
+        if(isset($_POST["nombre"]) && isset($_POST["pass"])){
+        $nombre = "Antonio";
+        $pass = "12345678";
+        for($i = 0; $i < count($users); $i++){
+            $nombre = $users[$i]["user"];
+            $pass = $users[$i]["password"];
+            if($_POST["nombre"] == $nombre && $pass == $_POST["pass"]){
+                $correcto = true;
+                break;
+            }
+        }
+        if($correcto == false){
+            echo "Credenciales incorrectos";
+        }else{
+            echo "Credenciales correctos";
+
         }
 
 
