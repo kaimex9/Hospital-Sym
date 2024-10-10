@@ -31,11 +31,14 @@ class NurseController extends AbstractController
     
 
     #[Route('/nurse/login', name: 'app_nurse_login')]
-    public function index(Request $request): Response
+    public function index(Request $request): JsonResponse
     { {
             $nombre = $request->request->get('nombre');
             $pass = $request->request->get( 'pass');
             $correcto = false;
+            $status = '[
+            {"Login":"test"}
+            ]';
             $users = $this->allNurses();
 
             if (isset($nombre) && isset($pass)) {
@@ -47,16 +50,12 @@ class NurseController extends AbstractController
                         break;
                     }
                 }
-                if ($correcto == false) {
-                    echo "Credenciales incorrectos";
-                } else {
-                    echo "Credenciales correctos";
-                }
+                return new JsonResponse(["login" => $correcto], Response::HTTP_OK);
             } else {
-                echo "No se han proporcionado datos suficientes";
+                return new JsonResponse(["login" => "Credential Missing"], Response::HTTP_OK);
             }
 
-            return new Response($correcto, Response::HTTP_OK);
+            
         }
     }
     #[Route('/name/{name}', name: 'nurse_list_name', methods: ['GET'])]
