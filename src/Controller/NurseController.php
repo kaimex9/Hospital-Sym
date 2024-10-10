@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NurseController extends AbstractController
 {
-
     private function allNurses(): array
     {
         $jsonData = '[{"user":"Emmeline","password":"iM5}~tp/"},
@@ -18,20 +17,19 @@ class NurseController extends AbstractController
         {"user":"Aharon","password":"zE4)U\'ptR"},
         {"user":"Ardath","password":"eE3/}$}Fh5"},
         {"user":"Cyrill","password":"pQ7?\'1+$<l"}]';
-        return $data = json_decode($jsonData, associative: true);
+        
+        return json_decode($jsonData, true); // Corrección aquí
     }
-
-    #[Route(path: '/index', name: 'app_nurse')]
+    
+    #[Route(path: '/index', name: 'app_nurse_getAll')]
     public function getAll(): JsonResponse
     {
-
         $credenciales = $this->allNurses();
-
-
         return $this->json($credenciales);
     }
+    
 
-    #[Route('/nurse/login', name: 'app_nurse')]
+    #[Route('/nurse/login', name: 'app_nurse_login')]
     public function index(): Response
     { {
             $correcto = false;
