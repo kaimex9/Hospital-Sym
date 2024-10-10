@@ -22,7 +22,7 @@ class NurseController extends AbstractController
         return json_decode($jsonData, true); // Corrección aquí
     }
     
-    #[Route(path: '/index', name: 'app_nurse_getAll')]
+    #[Route(path: '/index', name: 'app_nurse_getAll', methods: [])]
     public function getAll(): JsonResponse
     {
         $nurse_list = $this->allNurses();
@@ -30,7 +30,7 @@ class NurseController extends AbstractController
     }
     
 
-    #[Route('/nurse/login', name: 'app_nurse_login')]
+    #[Route('/nurse/login', name: 'app_nurse_login', methods:["POST"])]
     public function nurseLogin(Request $request): JsonResponse
     { {
             $name = $request->request->get('nombre');
@@ -51,8 +51,6 @@ class NurseController extends AbstractController
             } else {
                 return new JsonResponse(["login" => "Credential Missing"], Response::HTTP_OK);
             }
-
-            
         }
     }
     #[Route('/name/{name}', name: 'nurse_list_name', methods: ['GET'])]
