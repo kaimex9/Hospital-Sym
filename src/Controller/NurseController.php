@@ -36,9 +36,6 @@ class NurseController extends AbstractController
             $nombre = $request->request->get('nombre');
             $pass = $request->request->get( 'pass');
             $correcto = false;
-            $status = '[
-            {"Login":"test"}
-            ]';
             $users = $this->allNurses();
 
             if (isset($nombre) && isset($pass)) {
